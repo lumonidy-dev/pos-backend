@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"pos-backend/middleware"
 	"pos-backend/routes"
+	categorias "pos-backend/services/categorias"
 	productos "pos-backend/services/productos"
 
 	"cloud.google.com/go/firestore"
@@ -37,16 +38,22 @@ func main() {
 	// Configurar middleware para registrar la IP del cliente en todos los manejadores de rutas
 	router.Use(middleware.LogIPMiddleware)
 
-	// Configurar servicios
+	// Configurar productos service
 	productService := productos.NewProductServiceFirestore(app, ctx)
 
+	// Configurar categorías service
+	categoryService := categorias.NewCategoryServiceFirestore(app, ctx)
 	// Configurar rutas
+	routes.SetCategoriasRoutes(router, categoryService)
 	routes.SetProductosRoutes(router, productService)
 
 	// Configurar ruta de prueba
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "Up and running...")
 	})
+
+	// Configurar ruta de documentación
+	router.PathPrefix("/docs/").Handler(http.StripPrefix("/docs/", http.FileServer(http.Dir("./docs"))))
 
 	// Configurar servidor HTTP
 	const port = ":8000"

@@ -29,3 +29,5 @@ func NewProductServiceFirestore(client *firestore.Client, ctx context.Context) *
 		ctx:    ctx,
 	}
 }
+
+// Path: services/productos/service.go
