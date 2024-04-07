@@ -47,6 +47,9 @@ func main() {
 	// Configurar enrutador
 	router := mux.NewRouter()
 
+	// Configurar middleware CORS
+	router.Use(middleware.CORSMiddleware)
+
 	// Configurar middleware para registrar la IP del cliente en todos los manejadores de rutas
 	router.Use(middleware.LogStatusMiddleware)
 
