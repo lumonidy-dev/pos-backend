@@ -22,6 +22,6 @@ func (s *ProductServiceFirestore) GetProductByID(docID string) (*entity.Producto
 		Precio:       product.Precio,
 		Ingredientes: product.Ingredientes,
 		Stock:        product.Stock,
-		Categoria:    product.Categoria.ID,
+		Categoria:    product.Categoria,
 	}, nil
 }

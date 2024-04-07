@@ -5,6 +5,9 @@ import "github.com/swaggo/swag"
 
 const docTemplate = `{
     "schemes": {{ marshal .Schemes }},
+    "produces": [
+        "application/json"
+    ],
     "swagger": "2.0",
     "info": {
         "description": "{{escape .Description}}",
@@ -14,17 +17,468 @@ const docTemplate = `{
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
-    "paths": {}
+    "paths": {
+        "/categorias": {
+            "get": {
+                "description": "Obtiene todas las categorías del sistema",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Categorías"
+                ],
+                "summary": "Obtener todas las categorías",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/entity.CategoriasResponse"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error al obtener las categorías"
+                    }
+                }
+            },
+            "put": {
+                "description": "Actualiza los datos de una categoría existente en el sistema",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Categorías"
+                ],
+                "summary": "Actualizar una categoría existente",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID de la categoría a actualizar",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "description": "Cuerpo de la solicitud en formato JSON con los datos actualizados de la categoría",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Categorias"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Categoría actualizada exitosamente",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Se requiere el ID de la categoría o el cuerpo de la solicitud está mal formado",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Error al actualizar la categoría en el sistema",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Crea una nueva categoría en el sistema",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Categorías"
+                ],
+                "summary": "Crear una nueva categoría",
+                "parameters": [
+                    {
+                        "description": "Cuerpo de la solicitud en formato JSON",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Categorias"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/entity.CategoriasResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Elimina una categoría del sistema",
+                "tags": [
+                    "Categorías"
+                ],
+                "summary": "Eliminar una categoría",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID de la categoría a eliminar",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Categoría eliminada"
+                    },
+                    "400": {
+                        "description": "Se requiere el ID de la categoría"
+                    },
+                    "500": {
+                        "description": "Error al eliminar la categoría"
+                    }
+                }
+            }
+        },
+        "/categorias/{id}": {
+            "get": {
+                "description": "Obtiene una categoría del sistema por su ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Categorías"
+                ],
+                "summary": "Obtener una categoría por su ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID de la categoría a obtener",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entity.CategoriasResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Se requiere el ID de la categoría"
+                    },
+                    "500": {
+                        "description": "Error al obtener la categoría"
+                    }
+                }
+            }
+        },
+        "/productos": {
+            "get": {
+                "description": "Obtiene todos los productos registrados en el sistema",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Obtener todos los productos",
+                "responses": {
+                    "200": {
+                        "description": "Lista de productos",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/entity.Productos"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error al obtener los productos"
+                    }
+                }
+            },
+            "put": {
+                "description": "Actualiza un producto en el sistema",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Actualizar un producto",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID del producto a actualizar",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "description": "Cuerpo de la solicitud en formato JSON con los datos actualizados del producto",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Productos"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Producto actualizado exitosamente",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Productos"
+                        }
+                    },
+                    "400": {
+                        "description": "Se requiere el ID del producto o el cuerpo de la solicitud está mal formado",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Error al actualizar el producto",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Crea un nuevo producto en el sistema",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Crear un nuevo producto",
+                "parameters": [
+                    {
+                        "description": "Cuerpo de la solicitud en formato JSON con los datos del nuevo producto",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Productos"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Producto creado exitosamente",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Productos"
+                        }
+                    },
+                    "400": {
+                        "description": "El cuerpo de la solicitud está mal formado",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Error al crear el producto",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Elimina un producto del sistema",
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Eliminar un producto",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID del producto a eliminar",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Producto eliminado exitosamente"
+                    },
+                    "400": {
+                        "description": "Se requiere el ID del producto"
+                    },
+                    "500": {
+                        "description": "Error al eliminar el producto"
+                    }
+                }
+            }
+        },
+        "/productos/{id}": {
+            "get": {
+                "description": "Obtiene un producto del sistema por su ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Obtener un producto por su ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID del producto a obtener",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entity.ProductosResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Se requiere el ID del producto"
+                    },
+                    "500": {
+                        "description": "Error al obtener el producto"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "entity.Categorias": {
+            "description": "Estructura de datos para las categorías de productos",
+            "type": "object",
+            "properties": {
+                "desc": {
+                    "type": "string"
+                },
+                "nombre": {
+                    "type": "string"
+                },
+                "tipos": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "entity.CategoriasResponse": {
+            "description": "Estructura de datos para las categorías de productos",
+            "type": "object",
+            "properties": {
+                "desc": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "nombre": {
+                    "type": "string"
+                },
+                "tipos": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "entity.Productos": {
+            "type": "object",
+            "properties": {
+                "categoria": {
+                    "type": "string"
+                },
+                "ingredientes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "nombre": {
+                    "type": "string"
+                },
+                "precio": {
+                    "type": "string"
+                },
+                "stock": {
+                    "type": "integer"
+                }
+            }
+        },
+        "entity.ProductosResponse": {
+            "type": "object",
+            "properties": {
+                "categoria": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "ingredientes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "nombre": {
+                    "type": "string"
+                },
+                "precio": {
+                    "type": "string"
+                },
+                "stock": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "",
-	Host:             "",
-	BasePath:         "",
-	Schemes:          []string{},
-	Title:            "",
-	Description:      "",
+	Version:          "1.0",
+	Host:             "localhost:8000",
+	BasePath:         "/",
+	Schemes:          []string{"http"},
+	Title:            "LUMO POS API",
+	Description:      "API para el sistema de punto de venta LUMO POS",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

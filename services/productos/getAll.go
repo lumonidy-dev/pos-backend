@@ -25,12 +25,14 @@ func (s *ProductServiceFirestore) GetAllProducts() ([]*entity.ProductosResponse,
 			log.Printf("Error al convertir datos a struct: %v", err)
 			return nil, err
 		}
+
 		products = append(products, &entity.ProductosResponse{
 			ID:           doc.Ref.ID,
 			Nombre:       product.Nombre,
 			Precio:       product.Precio,
 			Ingredientes: product.Ingredientes,
-			Categoria:    product.Categoria.ID,
+			Stock:        product.Stock,
+			Categoria:    product.Categoria,
 		})
 	}
 	return products, nil

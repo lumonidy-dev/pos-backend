@@ -9,6 +9,15 @@ import (
 )
 
 // GetByIDCategoryHandler maneja las solicitudes para obtener una categoría por su ID
+// @Summary Obtener una categoría por su ID
+// @Description Obtiene una categoría del sistema por su ID
+// @Tags Categorías
+// @Param id path string true "ID de la categoría a obtener"
+// @Produce json
+// @Success 200 {object} entity.CategoriasResponse
+// @Failure 400 "Se requiere el ID de la categoría"
+// @Failure 500 "Error al obtener la categoría"
+// @Router /categorias/{id} [get]
 func GetCategoryByIDHandler(categoryService categorias.CategoryService) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// Otener el ID de la categoría de los parámetros de la URL
@@ -28,6 +37,7 @@ func GetCategoryByIDHandler(categoryService categorias.CategoryService) http.Han
 
 		// Responder con la categoría encontrada
 		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
 		json.NewEncoder(w).Encode(category)
 	}
 }

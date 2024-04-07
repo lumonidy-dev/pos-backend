@@ -1,4 +1,315 @@
+basePath: /
+definitions:
+  entity.Categorias:
+    description: Estructura de datos para las categorías de productos
+    properties:
+      desc:
+        type: string
+      nombre:
+        type: string
+      tipos:
+        items:
+          type: string
+        type: array
+      url:
+        type: string
+    type: object
+  entity.CategoriasResponse:
+    description: Estructura de datos para las categorías de productos
+    properties:
+      desc:
+        type: string
+      id:
+        type: string
+      nombre:
+        type: string
+      tipos:
+        items:
+          type: string
+        type: array
+      url:
+        type: string
+    type: object
+  entity.Productos:
+    properties:
+      categoria:
+        type: string
+      ingredientes:
+        items:
+          type: string
+        type: array
+      nombre:
+        type: string
+      precio:
+        type: string
+      stock:
+        type: integer
+    type: object
+  entity.ProductosResponse:
+    properties:
+      categoria:
+        type: string
+      id:
+        type: string
+      ingredientes:
+        items:
+          type: string
+        type: array
+      nombre:
+        type: string
+      precio:
+        type: string
+      stock:
+        type: integer
+    type: object
+host: localhost:8000
 info:
   contact: {}
-paths: {}
+  description: API para el sistema de punto de venta LUMO POS
+  title: LUMO POS API
+  version: "1.0"
+paths:
+  /categorias:
+    delete:
+      description: Elimina una categoría del sistema
+      parameters:
+      - description: ID de la categoría a eliminar
+        in: query
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Categoría eliminada
+        "400":
+          description: Se requiere el ID de la categoría
+        "500":
+          description: Error al eliminar la categoría
+      summary: Eliminar una categoría
+      tags:
+      - Categorías
+    get:
+      description: Obtiene todas las categorías del sistema
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entity.CategoriasResponse'
+            type: array
+        "500":
+          description: Error al obtener las categorías
+      summary: Obtener todas las categorías
+      tags:
+      - Categorías
+    post:
+      consumes:
+      - application/json
+      description: Crea una nueva categoría en el sistema
+      parameters:
+      - description: Cuerpo de la solicitud en formato JSON
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Categorias'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/entity.CategoriasResponse'
+      summary: Crear una nueva categoría
+      tags:
+      - Categorías
+    put:
+      consumes:
+      - application/json
+      description: Actualiza los datos de una categoría existente en el sistema
+      parameters:
+      - description: ID de la categoría a actualizar
+        in: query
+        name: id
+        required: true
+        type: string
+      - description: Cuerpo de la solicitud en formato JSON con los datos actualizados
+          de la categoría
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Categorias'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Categoría actualizada exitosamente
+          schema:
+            type: string
+        "400":
+          description: Se requiere el ID de la categoría o el cuerpo de la solicitud
+            está mal formado
+          schema:
+            type: string
+        "500":
+          description: Error al actualizar la categoría en el sistema
+          schema:
+            type: string
+      summary: Actualizar una categoría existente
+      tags:
+      - Categorías
+  /categorias/{id}:
+    get:
+      description: Obtiene una categoría del sistema por su ID
+      parameters:
+      - description: ID de la categoría a obtener
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.CategoriasResponse'
+        "400":
+          description: Se requiere el ID de la categoría
+        "500":
+          description: Error al obtener la categoría
+      summary: Obtener una categoría por su ID
+      tags:
+      - Categorías
+  /productos:
+    delete:
+      description: Elimina un producto del sistema
+      parameters:
+      - description: ID del producto a eliminar
+        in: query
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Producto eliminado exitosamente
+        "400":
+          description: Se requiere el ID del producto
+        "500":
+          description: Error al eliminar el producto
+      summary: Eliminar un producto
+      tags:
+      - Productos
+    get:
+      description: Obtiene todos los productos registrados en el sistema
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Lista de productos
+          schema:
+            items:
+              $ref: '#/definitions/entity.Productos'
+            type: array
+        "500":
+          description: Error al obtener los productos
+      summary: Obtener todos los productos
+      tags:
+      - Productos
+    post:
+      consumes:
+      - application/json
+      description: Crea un nuevo producto en el sistema
+      parameters:
+      - description: Cuerpo de la solicitud en formato JSON con los datos del nuevo
+          producto
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Productos'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Producto creado exitosamente
+          schema:
+            $ref: '#/definitions/entity.Productos'
+        "400":
+          description: El cuerpo de la solicitud está mal formado
+          schema:
+            type: string
+        "500":
+          description: Error al crear el producto
+          schema:
+            type: string
+      summary: Crear un nuevo producto
+      tags:
+      - Productos
+    put:
+      consumes:
+      - application/json
+      description: Actualiza un producto en el sistema
+      parameters:
+      - description: ID del producto a actualizar
+        in: query
+        name: id
+        required: true
+        type: string
+      - description: Cuerpo de la solicitud en formato JSON con los datos actualizados
+          del producto
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Productos'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Producto actualizado exitosamente
+          schema:
+            $ref: '#/definitions/entity.Productos'
+        "400":
+          description: Se requiere el ID del producto o el cuerpo de la solicitud
+            está mal formado
+          schema:
+            type: string
+        "500":
+          description: Error al actualizar el producto
+          schema:
+            type: string
+      summary: Actualizar un producto
+      tags:
+      - Productos
+  /productos/{id}:
+    get:
+      description: Obtiene un producto del sistema por su ID
+      parameters:
+      - description: ID del producto a obtener
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.ProductosResponse'
+        "400":
+          description: Se requiere el ID del producto
+        "500":
+          description: Error al obtener el producto
+      summary: Obtener un producto por su ID
+      tags:
+      - Productos
+produces:
+- application/json
+schemes:
+- http
 swagger: "2.0"

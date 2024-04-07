@@ -27,18 +27,12 @@ func (s *CategoryServiceFirestore) GetAllCategories() ([]*entity.CategoriasRespo
 			return nil, err
 		}
 
-		// Obtener los IDs de los elementos en el campo Tipos
-		var tipoIDs []string
-		for _, tipoRef := range category.Tipos {
-			tipoIDs = append(tipoIDs, tipoRef.ID)
-		}
-
 		categories = append(categories, &entity.CategoriasResponse{
 			ID:     doc.Ref.ID,
 			Nombre: category.Nombre,
 			Desc:   category.Desc,
 			URL:    category.URL,
-			Tipos:  tipoIDs,
+			Tipos:  category.Tipos,
 		})
 	}
 

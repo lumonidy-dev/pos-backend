@@ -7,7 +7,14 @@ import (
 	services "pos-backend/services/categorias"
 )
 
-// CreateCategoryHandler maneja las solicitudes para crear una nueva categoría
+// @Summary Crear una nueva categoría
+// @Description Crea una nueva categoría en el sistema
+// @Tags Categorías
+// @Accept json
+// @Produce json
+// @Param body body entity.Categorias true "Cuerpo de la solicitud en formato JSON"
+// @Success 201 {object} entity.CategoriasResponse
+// @Router /categorias [post]
 func CreateCategoryHandler(categoryService services.CategoryService) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var category entity.Categorias
