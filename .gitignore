@@ -24,7 +24,7 @@ bin/
 .vscode/
 
 # Go Modules
-go.mod
+# go.mod
 go.sum
 
 # Credentials
