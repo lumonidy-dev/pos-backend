@@ -5,6 +5,7 @@ go 1.22.2
 require (
 	cloud.google.com/go/firestore v1.15.0
 	github.com/gorilla/mux v1.8.1
+	github.com/rs/cors v1.10.1
 	github.com/swaggo/http-swagger/v2 v2.0.2
 	github.com/swaggo/swag v1.16.3
 	google.golang.org/api v0.172.0
@@ -30,7 +31,6 @@ require (
 	github.com/googleapis/gax-go/v2 v2.12.3 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/mailru/easyjson v0.7.6 // indirect
-	github.com/rs/cors v1.10.1 // indirect
 	github.com/swaggo/files/v2 v2.0.0 // indirect
 	go.opencensus.io v0.24.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.49.0 // indirect
