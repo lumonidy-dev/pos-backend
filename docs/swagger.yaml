@@ -1,7 +1,13 @@
 basePath: /
 definitions:
+  entity.Categoria:
+    properties:
+      id:
+        type: string
+      nombre:
+        type: string
+    type: object
   entity.Categorias:
-    description: Estructura de datos para las categorías de productos
     properties:
       desc:
         type: string
@@ -15,7 +21,6 @@ definitions:
         type: string
     type: object
   entity.CategoriasResponse:
-    description: Estructura de datos para las categorías de productos
     properties:
       desc:
         type: string
@@ -25,7 +30,7 @@ definitions:
         type: string
       tipos:
         items:
-          type: string
+          $ref: '#/definitions/entity.TipoProducto'
         type: array
       url:
         type: string
@@ -43,12 +48,12 @@ definitions:
       precio:
         type: string
       stock:
-        type: integer
+        type: string
     type: object
   entity.ProductosResponse:
     properties:
       categoria:
-        type: string
+        $ref: '#/definitions/entity.Categoria'
       id:
         type: string
       ingredientes:
@@ -60,7 +65,22 @@ definitions:
       precio:
         type: string
       stock:
-        type: integer
+        type: string
+    type: object
+  entity.TipoProducto:
+    properties:
+      id:
+        type: string
+      ingredientes:
+        items:
+          type: string
+        type: array
+      nombre:
+        type: string
+      precio:
+        type: string
+      stock:
+        type: string
     type: object
 host: localhost:8000
 info:
@@ -70,24 +90,6 @@ info:
   version: "1.0"
 paths:
   /categorias:
-    delete:
-      description: Elimina una categoría del sistema
-      parameters:
-      - description: ID de la categoría a eliminar
-        in: query
-        name: id
-        required: true
-        type: string
-      responses:
-        "200":
-          description: Categoría eliminada
-        "400":
-          description: Se requiere el ID de la categoría
-        "500":
-          description: Error al eliminar la categoría
-      summary: Eliminar una categoría
-      tags:
-      - Categorías
     get:
       description: Obtiene todas las categorías del sistema
       produces:
@@ -125,43 +127,25 @@ paths:
       summary: Crear una nueva categoría
       tags:
       - Categorías
-    put:
-      consumes:
-      - application/json
-      description: Actualiza los datos de una categoría existente en el sistema
+  /categorias/{id}:
+    delete:
+      description: Elimina una categoría del sistema
       parameters:
-      - description: ID de la categoría a actualizar
-        in: query
+      - description: ID de la categoría
+        in: path
         name: id
         required: true
         type: string
-      - description: Cuerpo de la solicitud en formato JSON con los datos actualizados
-          de la categoría
-        in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/entity.Categorias'
-      produces:
-      - application/json
       responses:
         "200":
-          description: Categoría actualizada exitosamente
-          schema:
-            type: string
+          description: Categoría eliminada
         "400":
-          description: Se requiere el ID de la categoría o el cuerpo de la solicitud
-            está mal formado
-          schema:
-            type: string
+          description: Se requiere el ID de la categoría
         "500":
-          description: Error al actualizar la categoría en el sistema
-          schema:
-            type: string
-      summary: Actualizar una categoría existente
+          description: Error al eliminar la categoría
+      summary: Eliminar una categoría
       tags:
       - Categorías
-  /categorias/{id}:
     get:
       description: Obtiene una categoría del sistema por su ID
       parameters:

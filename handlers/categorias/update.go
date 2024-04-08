@@ -19,18 +19,6 @@ import (
 // @Success 200 {string} string "Categoría actualizada exitosamente"
 // @Failure 400 {string} string "Se requiere el ID de la categoría o el cuerpo de la solicitud está mal formado"
 // @Failure 500 {string} string "Error al actualizar la categoría en el sistema"
-// @Router /categorias [put]
-// @Summary Actualizar una categoría existente
-// @Description Actualiza los datos de una categoría existente en el sistema
-// @Tags Categorías
-// @Accept json
-// @Produce json
-// @Param id query string true "ID de la categoría a actualizar"
-// @Param body body entity.Categorias true "Cuerpo de la solicitud en formato JSON con los datos actualizados de la categoría"
-// @Success 200 {object} entity.CategoriasResponse "Categoría actualizada exitosamente"
-// @Failure 400 {string} string "Se requiere el ID de la categoría o el cuerpo de la solicitud está mal formado"
-// @Failure 500 {string} string "Error al actualizar la categoría en el sistema"
-// @Router /categorias [put]
 func UpdateCategoryHandler(categoryService services.CategoryService) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// Obtiene el ID de la categoría de los parámetros de la URL

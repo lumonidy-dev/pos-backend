@@ -26,13 +26,30 @@ func (s *ProductServiceFirestore) GetAllProducts() ([]*entity.ProductosResponse,
 			return nil, err
 		}
 
+		// Obtener el nombre de la categoría
+		categoryDoc, err := s.client.Collection("Categorias").Doc(product.Categoria).Get(s.ctx)
+		if err != nil {
+			log.Printf("Error al obtener la categoría: %v", err)
+			continue
+		}
+
+		categoryData := categoryDoc.Data()
+		categoryName, ok := categoryData["nombre"].(string)
+		if !ok {
+			log.Printf("El campo Nombre no es de tipo string")
+			return nil, err
+		}
+
 		products = append(products, &entity.ProductosResponse{
 			ID:           doc.Ref.ID,
 			Nombre:       product.Nombre,
 			Precio:       product.Precio,
 			Ingredientes: product.Ingredientes,
 			Stock:        product.Stock,
-			Categoria:    product.Categoria,
+			Categoria: entity.Categoria{
+				ID:     categoryDoc.Ref.ID,
+				Nombre: categoryName,
+			},
 		})
 	}
 	return products, nil

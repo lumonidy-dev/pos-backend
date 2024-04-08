@@ -43,57 +43,6 @@ const docTemplate = `{
                     }
                 }
             },
-            "put": {
-                "description": "Actualiza los datos de una categoría existente en el sistema",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Categorías"
-                ],
-                "summary": "Actualizar una categoría existente",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "ID de la categoría a actualizar",
-                        "name": "id",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "description": "Cuerpo de la solicitud en formato JSON con los datos actualizados de la categoría",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Categorias"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Categoría actualizada exitosamente",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "400": {
-                        "description": "Se requiere el ID de la categoría o el cuerpo de la solicitud está mal formado",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "500": {
-                        "description": "Error al actualizar la categoría en el sistema",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            },
             "post": {
                 "description": "Crea una nueva categoría en el sistema",
                 "consumes": [
@@ -123,33 +72,6 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/entity.CategoriasResponse"
                         }
-                    }
-                }
-            },
-            "delete": {
-                "description": "Elimina una categoría del sistema",
-                "tags": [
-                    "Categorías"
-                ],
-                "summary": "Eliminar una categoría",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "ID de la categoría a eliminar",
-                        "name": "id",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Categoría eliminada"
-                    },
-                    "400": {
-                        "description": "Se requiere el ID de la categoría"
-                    },
-                    "500": {
-                        "description": "Error al eliminar la categoría"
                     }
                 }
             }
@@ -185,6 +107,33 @@ const docTemplate = `{
                     },
                     "500": {
                         "description": "Error al obtener la categoría"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Elimina una categoría del sistema",
+                "tags": [
+                    "Categorías"
+                ],
+                "summary": "Eliminar una categoría",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID de la categoría",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Categoría eliminada"
+                    },
+                    "400": {
+                        "description": "Se requiere el ID de la categoría"
+                    },
+                    "500": {
+                        "description": "Error al eliminar la categoría"
                     }
                 }
             }
@@ -374,8 +323,18 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "entity.Categoria": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "nombre": {
+                    "type": "string"
+                }
+            }
+        },
         "entity.Categorias": {
-            "description": "Estructura de datos para las categorías de productos",
             "type": "object",
             "properties": {
                 "desc": {
@@ -396,7 +355,6 @@ const docTemplate = `{
             }
         },
         "entity.CategoriasResponse": {
-            "description": "Estructura de datos para las categorías de productos",
             "type": "object",
             "properties": {
                 "desc": {
@@ -411,7 +369,7 @@ const docTemplate = `{
                 "tipos": {
                     "type": "array",
                     "items": {
-                        "type": "string"
+                        "$ref": "#/definitions/entity.TipoProducto"
                     }
                 },
                 "url": {
@@ -438,7 +396,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "stock": {
-                    "type": "integer"
+                    "type": "string"
                 }
             }
         },
@@ -446,7 +404,7 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "categoria": {
-                    "type": "string"
+                    "$ref": "#/definitions/entity.Categoria"
                 },
                 "id": {
                     "type": "string"
@@ -464,7 +422,30 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "stock": {
-                    "type": "integer"
+                    "type": "string"
+                }
+            }
+        },
+        "entity.TipoProducto": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "ingredientes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "nombre": {
+                    "type": "string"
+                },
+                "precio": {
+                    "type": "string"
+                },
+                "stock": {
+                    "type": "string"
                 }
             }
         }

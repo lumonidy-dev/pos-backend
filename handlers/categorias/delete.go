@@ -11,11 +11,11 @@ import (
 // @Summary Eliminar una categoría
 // @Description Elimina una categoría del sistema
 // @Tags Categorías
-// @Param id query string true "ID de la categoría a eliminar"
+// @param id path string true "ID de la categoría"
 // @Success 200 "Categoría eliminada"
 // @Failure 400 "Se requiere el ID de la categoría"
 // @Failure 500 "Error al eliminar la categoría"
-// @Router /categorias [delete]
+// @Router /categorias/{id} [delete]
 func DeleteCategoryHandler(categoryService categorias.CategoryService) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// Obtiene el ID de la categoría de los parámetros de la URL
