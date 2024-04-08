@@ -25,7 +25,7 @@ bin/
 
 # Go Modules
 # go.mod
-go.sum
+# go.sum
 
 # Credentials
 credentials.json

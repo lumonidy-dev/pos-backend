@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"pos-backend/middleware"
 	"pos-backend/routes"
 	categorias "pos-backend/services/categorias"
@@ -80,7 +81,10 @@ func main() {
 	handler := c.Handler(router)
 
 	// Configurar servidor HTTP
-	const port = ":8000"
+	port := ":" + os.Getenv("PORT") // Leer el puerto desde una variable de entorno
+	if port == ":" {                // Si no se especifica un puerto en la variable de entorno, usar el puerto por defecto (8000)
+		port = ":8000"
+	}
 	server := &http.Server{
 		Addr:    port,
 		Handler: handler,
